@@ -10,7 +10,7 @@ We seek to address the following questions:
 
 To answer these questions, we use Nemours database of dysarthric speech (Menendez-Pidal et al., 1996). We automtically extracted every pause and its duration from the dataset.
 
-# Repository structure
+# Repository Structure
 
 + **data**
   + **aggregated_file.csv** — file, which contains number of pauses and their average duration for each dataset file
