@@ -21,6 +21,7 @@ To answer these questions, we use Nemours database of dysarthric speech (Menende
   + **participants_averaged.png** — plots of average number of pauses and average pause duration for every participant
 + **pauses_extraction.ipynb** — notebook with code for pause extraction from the dataset
 + **speech_analysis.Rmd** — statistical analysis of the pause data
++ **speech_analysis.nb.html** — notebook version of statistical analysis of the pause data
 
 # References
 X. Menendez-Pidal, J. B. Polikoff, S. M. Peters, J. E. Leonzio and H. T. Bunnell, "The Nemours database of dysarthric speech," Proceeding of Fourth International Conference on Spoken Language Processing. ICSLP '96, Philadelphia, PA, USA, 1996, pp. 1962-1965 vol.3, doi: 10.1109/ICSLP.1996.608020.
