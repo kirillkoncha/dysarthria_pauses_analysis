@@ -1,0 +1,99 @@
+---
+title: "Pauses Analysis"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+library(corrplot)
+library(lme4)
+library(dplyr)  
+```
+
+# Correlation Analysis
+
+For this analysis, patients' sentence intelligibility scores were mapped with their averaged data (manually).
+
+Now, let's see, whether averaged number of pauses or averaged pause duration correlate with sentence intelligibility score.
+
+We expect that both variables will negatively correlate with sentence intelligibility score. To test this hypotheses, we use file with aggregated number of pauses and their average duration for each participant with dysarthria (except FB, which intelligibility scores are not assesed).
+
+```{r}
+data <- read.csv('/data/aggregated_participant.csv')
+data <- data[, -1] # ignore first column with row numbers
+```
+
+Delete NA's
+
+```{r}
+data <- na.omit(data)
+```
+
+Leave only numeric data for correlation analysis
+
+```{r}
+data <- data[sapply(data, is.numeric)]
+```
+
+Count correlation coefficients with Pearson method
+
+```{r}
+correlation_matrix <- cor(data, use = "pairwise.complete.obs")
+```
+
+```{r}
+print(correlation_matrix)
+```
+Plot correlation matrix.
+
+For correlation threshold, we selected value of |0.6|. Average number of pauses demonstrate very weak negative correlation (PCC = -0.23) with sentence intelligibility scores. At the same time, average pause duration demonstrate moderately strong negative correlation with sentence intelligibility scores (PCC = -0.65). It is also worth mentioning that there is a noticeable positive correlation (though below our threshold, PCC = 0.57) between average number of pauses and their duration. 
+
+```{r}
+corrplot(correlation_matrix, 
+         method = "color", 
+         type = "upper", 
+         tl.col = "black", 
+         tl.srt = 45, 
+         addCoef.col = "black")
+```
+# GLMER For Predicting Healthy vs. Patient Based on Pauses and Their Durations
+
+In this section, we want to check, whether number of pauses or average pause duration could be good predictors of dysarthria speech.
+
+We expect that average number of pauses would not be a significant predictor, while average pause duration would (due to previous correlation analysis).
+
+To test this hypothesis, we build generalized linear mixed-effect regression. For this analysis, we use data file with information about each file's number of pauses and their average duration.
+
+```{r}
+data <- read.csv('/data/aggregated_file.csv')
+```
+
+Add participant groups: Patient vs Healthy Control
+
+```{r}
+data <- data %>%
+  mutate(ParticipantGroup = ifelse(grepl("HC", Participant), "HealthyControl", "Patient"))
+```
+
+Dependent variable and random effect as factors
+
+```{r}
+data$ParticipantGroup <- factor(data$ParticipantGroup, levels = c("Patient", "HealthyControl"))
+data$Participant <- as.factor(data$Participant)
+```
+
+Build model. Participant group (Healthy Controls or Patients) is dependent variable; number of pauses in speech sample and average pause duration (they are also log-transformed) are independent variables; participant is random effect.
+
+```{r}
+logreg_model <- glmer(
+  ParticipantGroup ~ num_pauses + log(avg_pause_duration) + (1 | Participant),
+  data = data,
+  family = binomial(link = "logit")
+)
+```
+
+Contrary to our expectations, nor number of pauses (Est. = -1.24; Std. Error = 2.17; p = 0.56), nor their duration (Est. = -4.13; Std. Error = 3.54; p = 0.24) is a significant predictor of dysarthria speech.
+
+```{r}
+summary(logreg_model)
+```
