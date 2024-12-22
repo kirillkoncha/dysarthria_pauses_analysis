@@ -23,5 +23,5 @@ To answer these questions, we use Nemours database of dysarthric speech (Menende
 + **speech_analysis.Rmd** — statistical analysis of the pause data
 
 # References
-X. Menendez-Pidal, J. B. Polikoff, S. M. Peters, J. E. Leonzio and H. T. Bunnell, "The Nemours database of dysarthric speech," Proceeding of Fourth International Conference on Spoken Language Processing. ICSLP '96, Philadelphia, PA, USA, 1996, pp. 1962-1965 vol.3, doi: 10.1109/ICSLP.1996.608020. keywords: {Databases;Signal design;Testing;Speech enhancement;Speech processing;Signal processing;CD-ROMs;Hidden Markov models;Automatic speech recognition;Training data},
+X. Menendez-Pidal, J. B. Polikoff, S. M. Peters, J. E. Leonzio and H. T. Bunnell, "The Nemours database of dysarthric speech," Proceeding of Fourth International Conference on Spoken Language Processing. ICSLP '96, Philadelphia, PA, USA, 1996, pp. 1962-1965 vol.3, doi: 10.1109/ICSLP.1996.608020.
 
